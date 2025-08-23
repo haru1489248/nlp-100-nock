@@ -23,3 +23,13 @@ while node:
         print(node.surface)
 
     node = node.next #次のノードに行く 最後はNone
+
+
+# 辞書に語彙を追加する
+#  /opt/homebrew/Cellar/mecab/0.996/libexec/mecab/mecab-dict-index -f utf-8 -t utf-8 -d /Users/koara/nlp-100-nock/venv/lib/python3.8/site-packages/unidic_lite/dicdir -u new.dic /Users/koara/nlp-100-nock/tutrials/seeds/dict.csv
+
+# 追加した語彙を使用して分ち書きする
+
+t = MeCab.Tagger(r'-O wakati -u /Users/koara/nlp-100-nock/venv/lib/python3.8/site-packages/unidic_lite/dicdir/new.dic')
+result = t.parse('明日は雨だよ、ぴえん。')
+print(result.split())
