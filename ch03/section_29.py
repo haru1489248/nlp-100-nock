@@ -7,7 +7,7 @@ from pathlib import Path
 def normalize_title(name: str) -> str:
     n = name.strip().replace(" ", "_")
     for jp in ("ファイル:", "画像:"):
-        if n.startswith(jp):
+        if n.startswith(jp): # 文字列が特定の“先頭”パターンで始まっているかを調べる
             n = "File:" + n[len(jp):]
     if not n.lower().startswith("file:"):
         n = "File:" + n
