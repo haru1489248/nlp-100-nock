@@ -1,17 +1,25 @@
 import MeCab
+from pathlib import Path
 
-text = """
-メロスは激怒した。
-必ず、かの邪智暴虐の王を除かなければならぬと決意した。
-メロスには政治がわからぬ。
-メロスは、村の牧人である。
-笛を吹き、羊と遊んで暮して来た。
-けれども邪悪に対しては、人一倍に敏感であった。
-"""
+s = Path('ch04/assets/sample.txt').read_text(encoding='utf-8')
 
 t = MeCab.Tagger()
-node = t.parseToNode(text)
+node = t.parseToNode(s)
 
-filename = "ch4/sample.txt"
-with open(filename, mode="rt", encoding="utf-8") as f:
-    print(f.readlines)
+tokens = []
+node = node.next # 冒頭のBOSをスキップ
+while node and node.stat != MeCab.MECAB_EOS_NODE:
+        feature = node.feature.split(',')[0]
+        surface = node.surface
+        tokens.append((surface, feature))
+        node = node.next
+
+answer = []
+for i in range(len(tokens) - 2):
+        a, p1 = tokens[i]
+        no, p2 = tokens[i+1]
+        b, p3 = tokens[i+2]
+        if p1.startswith('名詞') and no == 'の' and p2.startswith('助詞') and p3.startswith('名詞'):
+                answer.append((a + 'の' + b))
+
+print(answer)
