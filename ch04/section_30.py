@@ -1,16 +1,10 @@
 import MeCab
+from pathlib import Path
 
-text = """
-メロスは激怒した。
-必ず、かの邪智暴虐の王を除かなければならぬと決意した。
-メロスには政治がわからぬ。
-メロスは、村の牧人である。
-笛を吹き、羊と遊んで暮して来た。
-けれども邪悪に対しては、人一倍に敏感であった。
-"""
+s = Path('ch04/assets/sample.txt').read_text(encoding='utf-8')
 
 tagger = MeCab.Tagger()
-node = tagger.parseToNode(text)
+node = tagger.parseToNode(s)
 while node:
     feature = node.feature.split(',')[0]
     if feature == "動詞":
