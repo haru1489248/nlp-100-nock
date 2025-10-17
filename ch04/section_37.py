@@ -19,11 +19,15 @@ RE_FILE = re.compile(r'\[\[ファイル：(.+?)\]\]')
 RE_CATEGORY = re.compile(r'\[\[Category:(.+?)\]\]')
 RE_SIGN = re.compile(r'~~~~')
 RE_TITLE = re.compile(r"^(={2,6})\s*(.*?)\s*\1\s*$", re.MULTILINE)
+RE_BULLET = re.compile(r'^\*+\s?', re.MULTILINE)
+RE_INDENT = re.compile(r'^[;:]+', re.MULTILINE)
 def normalize_text(text):
     text = RE_TEXT.sub("", text)
     text = RE_KAKKO.sub("", text)
     text = RE_EXTLINK.sub("", text)
     text = RE_HTML.sub("", text)
+    text = RE_BULLET.sub("", text)
+    text = RE_INDENT.sub("", text)
     text = RE_QUOTE.sub(r"\2", text)                         # 強調のクォートだけ除去
     text = RE_LINK.sub(lambda m: m.group(2) or m.group(1), text)  # リンク表示 or 記事名
     text = RE_FILE.sub("", text)                              # ファイル行は削除
