@@ -47,7 +47,7 @@ def tokenize_nouns(text: str) -> list[str]:
     return toks
 
 # === コーパス作成（全記事） ===
-src = Path("ch03/assets/jawiki-country.json.gz")  # あなたのパスに合わせて
+src = Path("ch03/assets/jawiki-country.json.gz")
 docs = []
 titles = []
 japan_idx = None
@@ -78,14 +78,18 @@ vec = TfidfVectorizer(
     norm=None,
 )
 
-X = vec.fit_transform(docs)  # 形状: (n_docs, n_terms)
-feature_names = np.array(vec.get_feature_names_out())
+X = vec.fit_transform(docs)  # 形状: (行のインデックス, 列のインデックス) TF-IDF
+feature_names = np.array(vec.get_feature_names_out()) # surface（名詞）を取得
 idf = vec.idf_               # 長さ n_terms, idf = log(N/df) + 1
 
 # === 「日本」記事の行を取り出して上位20語 ===
+# toarray()はndarrayに型変換する
+# ravel()は一次元配列にする
+# 元配列と同じ実データを共有して見せ方だけ変えた配列
+# ravel()の配列に代入すると元の配列のデータも変更される
 row = X[japan_idx].toarray().ravel()   # TF-IDF 値（TF×IDF）
 # TF を復元（TF-IDF / IDF）。浮動小数になることがあるので丸める
-tf = np.divide(row, idf, out=np.zeros_like(row), where=idf != 0)
+tf = np.divide(row, idf, out=np.zeros_like(row), where=idf != 0) # zeros_like(data)はdataの型になる
 
 # 値が 0 の語は除外して降順 top20
 nz = row.nonzero()[0]
