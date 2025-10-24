@@ -5,3 +5,4 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .ipynb_checkpoints/
+ch06/assets/GoogleNews-vectors-negative300.bin.gz
