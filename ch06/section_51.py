@@ -18,3 +18,6 @@ v2 = vectors[w2]
 # np dot はドット積を計算する関数
 cos_sim = np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
 print(f"コサイン類似度: {cos_sim}")
+
+# ライブラリで計算する場合
+print("コサイン類似度（ライブラリ）", vectors.similarity(w1, w2))
